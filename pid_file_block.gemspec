@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Alexander Kharitonov"]
   spec.email         = ["askh@askh.ru"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{gem for easy use pid-file.}
+  spec.description   = %q{gem for automatic checking, creation and deletion pid-file of an application.}
+  spec.homepage      = "https://github.com/askh/pid_file_block"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
