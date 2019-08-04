@@ -1,24 +1,5 @@
-
-# Example:
-#
-# pid_file = PidFileSimple.new(pidfile: 'example.run')
-# def do_exit
-#   pid_file.release
-#   exit 0
-# end
-# old_term = Signal.trap('TERM') do
-#   do_exit
-# end
-# old_int = Signal.trap('INT') do
-#   do_exit
-# end
-# begin
-#   pid_file.open do
-#     do_some()
-#   end
-# rescue PidFileSimple::ProcessExistsError
-#   exit 1
-# end
+require 'pid_file_block/version'
+require 'pid_file_block/process_exists_error'
 
 class PidFileBlock
 
