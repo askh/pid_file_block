@@ -5,7 +5,7 @@ require "pid_file_block/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "pid_file_block"
-  spec.version       = PidFileBlock::VERSION
+  spec.version       = PidFileBlock::Version::VERSION
   spec.authors       = ["Alexander Kharitonov"]
   spec.email         = ["askh@askh.ru"]
 
