@@ -6,8 +6,8 @@ class PidFileBlock
   
   class Application
 
-    def self.run_application
-    end
+    # def self.run_application
+    # end
     
     def self.do_exit(pid_file_block, exit_code)
       pid_file_block.release if pid_file_block
@@ -29,7 +29,7 @@ class PidFileBlock
       pid_file_block = PidFileBlock.new(piddir: piddir, pidfile: pidfile)
       begin
         pid_file_block.open do
-          run_application
+          yield
         end
       rescue PidFileBlock::ProcessExistsError
         STDERR.puts "Error: process exists (see pid in file #{pid_file_block.pid_file_full_name})."
