@@ -6,19 +6,19 @@ class PidFileBlock
   
   class Application
 
-    def run_application
+    def self.run_application
     end
     
-    def do_exit(pid_file_block, exit_code)
+    def self.do_exit(pid_file_block, exit_code)
       pid_file_block.release if pid_file_block
       exit exit_code
     end
 
-    def run(piddir:,
-            pidfile:,
-            exit_code_normal: 0,
-            exit_code_process_exists_error: 1,
-            exit_code_interrupt: 2)
+    def self.run(piddir:,
+                 pidfile:,
+                 exit_code_normal: 0,
+                 exit_code_process_exists_error: 1,
+                 exit_code_interrupt: 2)
       pid_file_block = nil
       old_term = Signal.trap('TERM') do
         do_exit(pid_file_block, exit_code_interrupt)
