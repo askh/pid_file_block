@@ -1,8 +1,6 @@
 # PidFileBlock
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pid_file_block`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+PidFileBlock - gem for easy use pid-files. The gem automatically creates and deletes pid-file for application.
 
 ## Installation
 
@@ -22,17 +20,83 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Simple example
 
-## Development
+```ruby
+#!/usr/bin/env ruby
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+require 'pid_file_block'
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+pid_file_block = PidFileBlock.new(piddir: '/run', pidfile: 'example.pid')
+begin
+  pid_file_block.open do
+    # Put your code here
+  end
+rescue PidFileBlock::ProcessExistsError
+  # Another process running. Exit with error.
+  exit 1
+end
+```
+
+### With signal handlers
+
+In previous example pid-file will not be deleted after the program termination with command kill or Ctrl-C. You may define your signal handlers and use the release method in them:
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'pid_file_block'
+
+$pid_file_block = nil
+
+def do_exit
+  $pid_file_block.release if $pid_file_block
+  exit 0
+end
+
+old_term = Signal.trap('TERM') do
+  do_exit
+end
+old_int = Signal.trap('INT') do
+  do_exit
+end
+
+$pid_file_block = PidFileBlock.new(piddir: '/run', pidfile: 'example.run')
+begin
+  $pid_file_block.open do
+    # Put your code here
+  end
+rescue PidFileBlock::ProcessExistsError
+  # Another process running. Exit with error.
+  exit 1
+end
+```
+
+Another way - use the PidFileBlock::Application
+
+### PidFileBlock::Application
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'pid_file_block'
+require 'pid_file_block/application'
+
+class MyApp < PidFileBlock::Application
+
+  def self.run_application
+    # Put your code here
+  end
+
+end
+
+MyApp.run(piddir: '/run', pidfile: 'example.pid')
+
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pid_file_block.
+Bug reports and pull requests are welcome on GitHub at https://github.com/askh/pid_file_block.
 
 ## License
 
