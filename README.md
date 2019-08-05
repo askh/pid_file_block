@@ -27,7 +27,7 @@ Or install it yourself as:
 
 require 'pid_file_block'
 
-pid_file_block = PidFileBlock.new(piddir: '/run', pidfile: 'example.run')
+pid_file_block = PidFileBlock.new(piddir: '/run', pidfile: 'example.pid')
 begin
   pid_file_block.open do
     # Put your code here
@@ -84,7 +84,7 @@ require 'pid_file_block/application'
 
 class MyApp < PidFileBlock::Application
 
-  def run_application
+  def self.run_application
     # Put your code here
   end
 
