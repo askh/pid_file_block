@@ -20,10 +20,10 @@ class PidFileBlock
                  exit_code_process_exists_error: 1,
                  exit_code_interrupt: 2)
       pid_file_block = nil
-      old_term = Signal.trap('TERM') do
+      Signal.trap('TERM') do
         do_exit(pid_file_block, exit_code_interrupt)
       end
-      old_int = Signal.trap('INT') do
+      Signal.trap('INT') do
         do_exit(pid_file_block, exit_code_interrupt)
       end
       pid_file_block = PidFileBlock.new(piddir: piddir, pidfile: pidfile)
