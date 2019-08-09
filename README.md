@@ -82,15 +82,10 @@ Another way - use the PidFileBlock::Application
 require 'pid_file_block'
 require 'pid_file_block/application'
 
-class MyApp < PidFileBlock::Application
-
-  def self.run_application
-    # Put your code here
-  end
-
+PidFileBlock::Application.run(piddir: '/run', pidfile: 'example.pid')
+  # Put your code here
 end
 
-MyApp.run(piddir: '/run', pidfile: 'example.pid')
 
 ```
 
