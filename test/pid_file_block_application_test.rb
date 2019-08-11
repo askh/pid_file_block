@@ -23,7 +23,7 @@ class PidFileBlockTest < Minitest::Test
           writer.close
           while true do
             sleep 10
-            STDERR.puts "Warning: child process from $0 still working."
+            STDERR.puts "Warning: child process from #{__FILE__} still working."
           end
         end
       end

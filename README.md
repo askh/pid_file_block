@@ -85,8 +85,17 @@ require 'pid_file_block/application'
 PidFileBlock::Application.run(piddir: '/run', pidfile: 'example.pid')
   # Put your code here
 end
+```
 
+### Kill a process with pid file from another
 
+```ruby
+#!/usr/bin/env ruby
+
+require 'pid_file_block'
+
+pid_file_block = PidFileBlock.new(piddir: '/run', pidfile: 'example.pid')
+pid_flie_block.kill
 ```
 
 ## Contributing

@@ -28,11 +28,11 @@ class PidFileBlock
                   File::Constants::RDWR|File::Constants::CREAT|File::Constants::EXCL) do |f|
           f.flock(File::LOCK_EX)
           if process_running?(f)
-            # f.flock(File::LOCK_UN)
+            f.flock(File::LOCK_UN)
             raise PidFileBlock::ProcessExistsError
           end
           write_pid(f)
-          # f.flock(File::LOCK_UN)
+          f.flock(File::LOCK_UN)
         end
         break
       rescue Errno::EEXIST
@@ -45,7 +45,7 @@ class PidFileBlock
   def release
     our_pid = $$
     File.open(@pid_file_full_name, 'r') do |f|
-      f.flock(File::LOCK_EX)
+      f.flock(File::LOCK_SH)
       file_pid_str = f.read
       begin
         file_pid = Integer(file_pid_str)
@@ -60,6 +60,21 @@ class PidFileBlock
       end
     end
   end
+
+  def kill(signal: "TERM")
+      pid = nil
+      File.open(@pid_file_full_name, 'r') do |f|
+        f.flock(File::LOCK_SH)
+        pid_str = f.read
+        begin
+          pid = Integer(pid_str)
+        rescue ArgumentError
+          return false
+        end    
+      end
+      Process.kill(signal, pid)
+      return pid
+  end    
 
   private
 
